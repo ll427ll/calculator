@@ -1,0 +1,17 @@
+body{
+    display: flex;
+    justify-content:center; 
+    align-items : center;  
+}
+.calculator {
+    border: solid 2px;
+    width: 151px;
+} 
+
+input {
+    margin: 5px;
+
+}
+#resultFld{
+    width: 130px;
+}
