@@ -8,32 +8,94 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <script src="script.js"></script>
-        <div class="calculator">
-            <input type="text" id="resultFld">
-            <br>
-            <input type="button" value="1" onclick="btn_click(1)">
-            <input type="button" value="2" onclick="btn_click(2)">
-            <input type="button" value="3" onclick="btn_click(3)">
-            <input type="button" value="/" onclick="cal('/')">
-            <br>
-            <input type="button" value="4" onclick="btn_click(4)">
-            <input type="button" value="5" onclick="btn_click(5)">
-            <input type="button" value="6" onclick="btn_click(6)">
-            <input type="button" value="*" onclick="cal('*')">
-            <br>
-            <input type="button" value="7" onclick="btn_click(7)">
-            <input type="button" value="8" onclick="btn_click(8)">
-            <input type="button" value="9" onclick="btn_click(9)">
-            <input type="button" value="-" onclick="cal('-')">
-            <br>
-            <input type="button" value="0" onclick="btn_click(0)">
-            <input type="button" value=".." onclick="btn_click('.')">
-            <input type="button" value="+" onclick="cal('+')">
-            <input type="button" value="d" onclick="clear_del()">
-            <br>
-            <input type="button" value="             계산             " onclick="compute()">
+    <div class="calculator">
+        <input type="text" id="resultFld">
+        <br>
+        <input type="button" value="1" onclick="calculator.btn_click(1)">
+        <input type="button" value="2" onclick="calculator.btn_click(2)">
+        <input type="button" value="3" onclick="calculator.btn_click(3)">
+        <input type="button" value="/" onclick="calculator.cal('/')">
+        <br>
+        <input type="button" value="4" onclick="calculator.btn_click(4)">
+        <input type="button" value="5" onclick="calculator.btn_click(5)">
+        <input type="button" value="6" onclick="calculator.btn_click(6)">
+        <input type="button" value="*" onclick="calculator.cal('*')">
+        <br>
+        <input type="button" value="7" onclick="calculator.btn_click(7)">
+        <input type="button" value="8" onclick="calculator.btn_click(8)">
+        <input type="button" value="9" onclick="calculator.btn_click(9)">
+        <input type="button" value="-" onclick="calculator.cal('-')">
+        <br>
+        <input type="button" value="0" onclick="calculator.btn_click(0)">
+        <input type="button" value="." onclick="calculator.btn_click('.')">
+        <input type="button" value="+" onclick="calculator.cal('+')">
+        <input type="button" value="d" onclick="calculator.clear_del()">
+        <br>
+        <input type="button" value="계산" onclick="calculator.compute()">
+    </div>
 
-        </div>
+    <div id="history">
+        <h2>계산 기록</h2>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        var calculator = {
+            num: 0,
+            symbol: '',
+            history: [],
+            
+            btn_click: function(a) {
+                document.getElementById("resultFld").value += a;
+            },
+            
+            cal: function(b) {
+                var firstNum = document.getElementById("resultFld").value;
+                this.num = firstNum;
+                this.symbol = b;
+                document.getElementById("resultFld").value = "";
+            },
+            
+            compute: function() {
+                var secNum = parseFloat(document.getElementById("resultFld").value);
+                var result;
+                
+                switch (this.symbol) {
+                    case '+':
+                        result = Number(this.num) + Number(secNum);
+                        break;
+                    case '-':
+                        result = Number(this.num) - Number(secNum);
+                        break;
+                    case '*':
+                        result = Number(this.num) * Number(secNum);
+                        break;
+                    case '/':
+                        result = Number(this.num) / Number(secNum);
+                        break;
+                }
+                
+                document.getElementById("resultFld").value = result;
+                this.history.push(this.num + ' ' + this.symbol + ' ' + secNum + ' = ' + result);
+                this.displayHistory();
+            },
+            
+            clear_del: function() {
+                document.getElementById("resultFld").value = "";
+                this.num = 0;
+            },
+            
+            displayHistory: function() {
+                var historyDiv = document.getElementById("history");
+                historyDiv.innerHTML = "<h5>계산 기록</h5>";
+                
+                for (var i = 0; i < this.history.length; i++) {
+                    var p = document.createElement("p");
+                    p.textContent = this.history[i];
+                    historyDiv.appendChild(p);
+                }
+            }
+        };
+    </script>
 </body>
 </html>
